@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0ad71fb06cfdcbfa9bfeb94d735bb60, type: 3}
+  m_Name: DroneConfig
+  m_EditorClassIdentifier: Assembly-CSharp::FlyDrone.Drone.DroneConfig
+  mass: 1.2
+  thrustToWeight: 2.5
+  airDensity: 1.225
+  dragCoefficient: {x: 1, y: 1.2, z: 0.9}
+  referenceArea: {x: 0.03, y: 0.06, z: 0.03}
+  angularDamping: 0.5
+  maxTiltDeg: 35
+  maxClimbRate: 5
+  anglePid:
+    kp: 60
+    ki: 0
+    kd: 12
+    integralLimit: 1
+  climbPid:
+    kp: 3
+    ki: 0.5
+    kd: 0
+    integralLimit: 2
+  maxRateDeg: 360
+  ratePid:
+    kp: 20
+    ki: 0
+    kd: 0
+    integralLimit: 1
+  maxYawRateDeg: 180
+  yawRatePid:
+    kp: 8
+    ki: 0
+    kd: 0
+    integralLimit: 1
+  maxAngularAccel: 80
