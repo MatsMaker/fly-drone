@@ -52,5 +52,11 @@ namespace FlyDrone.Drone
 
         /// <summary>k = ½·ρ·Cd·A по кожній локальній осі. Сила опору F = −k·v·|v|.</summary>
         public Vector3 DragK => 0.5f * airDensity * Vector3.Scale(dragCoefficient, referenceArea);
+
+        [Header("Оберти пропелерів")]
+        [SerializeField] public readonly float idleRpm = 0f;
+        [SerializeField] public float maxRpm = 9000f;
+        [Tooltip("RPM за секунду — інерція мотора при розкрутці/гальмуванні")]
+        [SerializeField] public float rpmResponse = 25000f;
     }
 }
