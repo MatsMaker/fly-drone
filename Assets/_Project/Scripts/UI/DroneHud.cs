@@ -1,4 +1,5 @@
 using FlyDrone.Drone;
+using FlyDrone.World;
 using TMPro;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ namespace FlyDrone.UI
         [SerializeField] private float refreshRate = 10f;
         [Tooltip("Шари, які вважаємо землею. Шар Drone сюди не входить.")]
         [SerializeField] private LayerMask groundMask = ~0;
+        [Tooltip("Необов'язково: показує стан стрімінгу terrain")]
+        [SerializeField] private TerrainStreamer streamer;
 
         private Rigidbody _rb;
         private float _timer;
@@ -52,6 +55,16 @@ namespace FlyDrone.UI
                 $"PIT  {pitch,6:0}°\n" +
                 $"ROL  {roll,6:0}°\n" +
                 $"FPS  {_fps,6:0}";
+
+            if (streamer != null)
+            {
+                Vector3 worldPos = t.position - FloatingOrigin.TotalOffset;
+                label.text +=
+                    $"\nTILE {streamer.ActiveTiles,3} +{streamer.PendingTiles}\n" +
+                    $"BLD  {streamer.LastBuildMs,6:0.0} ms\n" +
+                    $"APL  {streamer.LastApplyMs,6:0.0} ms\n" +
+                    $"POS  {worldPos.x / 1000f:0.00}, {worldPos.z / 1000f:0.00} km";
+            }
         }
     }
 }

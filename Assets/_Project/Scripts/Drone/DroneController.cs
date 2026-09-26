@@ -14,6 +14,8 @@ namespace FlyDrone.Drone
         [SerializeField] private DroneConfig config;
         [SerializeField] private FlightMode mode = FlightMode.Stabilized;
         [SerializeField] private bool debugDraw = true;
+        [Tooltip("Точка респауну. Якщо не задана — позиція дрона на старті сцени.")]
+        [SerializeField] private Transform spawnPoint;
 
         private Rigidbody _rb;
         private DroneInput _input;
@@ -30,7 +32,12 @@ namespace FlyDrone.Drone
         private PidController _climbPid;
 
         public FlightMode Mode => mode;
-        public DroneConfig Config => config;
+        /// <summary>Сетер потрібен тестам: вони створюють дрон з коду.</summary>
+        public DroneConfig Config
+        {
+            get => config;
+            set => config = value;
+        }
         /// <summary>Поточна тяга як частка від максимальної, 0..1.</summary>
         public float Throttle01 { get; private set; }
         public Vector3 LastThrustForce { get; private set; }
@@ -215,11 +222,16 @@ namespace FlyDrone.Drone
 
         public void ResetDrone()
         {
+            // SpawnPoint живе у сцені й зсувається разом зі світом при floating origin,
+            // тож респаун завжди потрапляє в правильне місце.
+            Vector3 pos = spawnPoint != null ? spawnPoint.position : _spawn.position;
+            Quaternion rot = spawnPoint != null ? spawnPoint.rotation : _spawn.rotation;
+
             _rb.linearVelocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
-            _rb.position = _spawn.position;
-            _rb.rotation = _spawn.rotation;
-            transform.SetPositionAndRotation(_spawn.position, _spawn.rotation);
+            _rb.position = pos;
+            _rb.rotation = rot;
+            transform.SetPositionAndRotation(pos, rot);
             ResetPids();
         }
 

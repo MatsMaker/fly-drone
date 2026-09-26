@@ -30,6 +30,29 @@ namespace FlyDrone.Drone
         public bool ToggleCameraPressed { get; private set; }
         public bool ResetPressed { get; private set; }
 
+        private bool _hasOverride;
+        private Vector2 _overrideAttitude;
+        private float _overrideVertical;
+        private float _overrideYaw;
+
+        /// <summary>
+        /// «Шов» для автотестів і автопілота: підміняє стіки програмними значеннями.
+        /// </summary>
+        public void SetOverride(Vector2 attitude, float vertical, float yaw)
+        {
+            _hasOverride = true;
+            _overrideAttitude = attitude;
+            _overrideVertical = vertical;
+            _overrideYaw = yaw;
+
+            // Одразу, щоб FixedUpdate до першого Update вже бачив нові значення.
+            Attitude = attitude;
+            Vertical = vertical;
+            Yaw = yaw;
+        }
+
+        public void ClearOverride() => _hasOverride = false;
+
         private void Awake()
         {
             // Mode 2: лівий стік — газ і yaw, правий — pitch і roll.
@@ -98,10 +121,19 @@ namespace FlyDrone.Drone
 
         private void Update()
         {
-            Vector2 a = _attitude.ReadValue<Vector2>();
-            Attitude = new Vector2(Shape(a.x), Shape(a.y));
-            Vertical = Shape(_vertical.ReadValue<float>());
-            Yaw = Shape(_yaw.ReadValue<float>());
+            if (_hasOverride)
+            {
+                Attitude = _overrideAttitude;
+                Vertical = _overrideVertical;
+                Yaw = _overrideYaw;
+            }
+            else
+            {
+                Vector2 a = _attitude.ReadValue<Vector2>();
+                Attitude = new Vector2(Shape(a.x), Shape(a.y));
+                Vertical = Shape(_vertical.ReadValue<float>());
+                Yaw = Shape(_yaw.ReadValue<float>());
+            }
 
             ToggleModePressed = _toggleMode.WasPressedThisFrame();
             ToggleCameraPressed = _toggleCamera.WasPressedThisFrame();
