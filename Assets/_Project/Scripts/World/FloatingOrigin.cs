@@ -55,6 +55,13 @@ namespace FlyDrone.World
             // Rigidbody мають одразу дізнатися про нові позиції трансформів.
             Physics.SyncTransforms();
 
+            // Terrain кешує дані дерев (LODGroup-префаб) і не оновлює їх при зсуві трансформа:
+            // без Flush лишаються «пеньки» — крона зникає, стовбур обрізаний.
+            foreach (Terrain terrain in Terrain.activeTerrains)
+            {
+                terrain.Flush();
+            }
+
             // Камери з демпфуванням інакше «поїдуть» за стрибком цілі.
             foreach (CinemachineCamera cam in FindObjectsByType<CinemachineCamera>(
                          FindObjectsInactive.Include, FindObjectsSortMode.None))

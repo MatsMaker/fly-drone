@@ -189,11 +189,13 @@ namespace FlyDrone.World
                 Terrain terrain = _pool.Count > 0 ? _pool.Pop() : CreateTerrain();
                 TerrainData td = terrain.terrainData;
 
+                // Позицію — до дерев: тайл з пулу переїжджає, а кеш дерев terrain не стежить за трансформом.
+                terrain.transform.localPosition = new Vector3(data.Coord.X * settings.tileSize, 0f, data.Coord.Z * settings.tileSize);
+
                 td.SetHeights(0, 0, data.Heights);
                 td.SetAlphamaps(0, 0, data.Alphamaps);
                 td.SetTreeInstances(_treePrototypes.Length > 0 ? data.Trees : Array.Empty<TreeInstance>(), true);
 
-                terrain.transform.localPosition = new Vector3(data.Coord.X * settings.tileSize, 0f, data.Coord.Z * settings.tileSize);
                 terrain.gameObject.name = $"Tile {data.Coord}";
                 terrain.gameObject.SetActive(true);
 
