@@ -1,0 +1,4 @@
+label,avg_fps,avg_ms,low1_fps,max_ms,hitches,frames
+baseline,366.2,2.73,250.1,3084.7,1,21973
+baseline,307.8,3.25,170.3,1300.0,11,18505
+baseline,301.6,3.32,173.6,416.5,13,18137

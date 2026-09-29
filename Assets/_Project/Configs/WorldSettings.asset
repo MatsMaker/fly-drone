@@ -39,4 +39,4 @@ MonoBehaviour:
   pixelError: 6
   basemapDistance: 300
   treeDistance: 700
-  drawInstanced: 1
+  drawInstanced: 0
