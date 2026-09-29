@@ -34,3 +34,8 @@
 Thumbs.db
 Desktop.ini
 sysinfo.txt
+
+# Сторонні асети з Unity Asset Store — ліцензія забороняє їх поширювати.
+# Імпортуються локально, див. README → «Сторонні асети».
+/[Aa]ssets/PBR Racing Drone/
+/[Aa]ssets/PBR Racing Drone.meta
